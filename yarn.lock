@@ -379,6 +379,11 @@
   dependencies:
     "flatpickr" "4.6.9"
 
+"carbon-icons-svelte@^11.1.0":
+  "integrity" "sha512-yDA1aqgRCuDaY1moxYywKnkGak7rFc5U2n8/hrs8irmIpq9ebKmimLdMCVqZgV4kiZf2Udj/lkKOs/IzHixrnQ=="
+  "resolved" "https://registry.npmjs.org/carbon-icons-svelte/-/carbon-icons-svelte-11.1.0.tgz"
+  "version" "11.1.0"
+
 "chalk@^4.0.0":
   "integrity" "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="
   "resolved" "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz"

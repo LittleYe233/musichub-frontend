@@ -1,23 +1,29 @@
 <script lang="ts">
-  import 'normalize.css'
+  // import 'normalize.css'
   import './tailwind.css'
   import "carbon-components-svelte/css/all.css";
   import {
       DataTable,
       Toolbar,
-      ToolbarContent,
       ToolbarSearch,
-      ToolbarMenu,
-      ToolbarMenuItem,
       Button,
+      Pagination
   } from "carbon-components-svelte";
+  import {
+      TrashCan,
+      Play
+  } from "carbon-icons-svelte";
 
-  let dummyList = Array.from({ length: 10 }).map((_, i) => ({
-      id: i,
-      name: 'Lorem Ipsum',
+  let dummyList = Array.from({ length: 50 }).map((_, i) => ({
+      id: i+1,
+      name: 'Lorem Ipsum Super Hyper Mega Long Long Song Name!!!!!!!!!!!!!!!!!!!!!',
       artist: 'Rick Astley',
       album: 'littleye',
   }));
+  let pagination = {
+      pageSize: 20,
+      page: 1,
+  }
 </script>
 
 <svelte:head>
@@ -25,8 +31,21 @@
 </svelte:head>
 
 <main>
-  <h1 class="py-3 text-center text-4xl font-bold">MusicHub Homepage</h1>
-  <div class="relative flex justify-center">
+  <h1 class="
+    py-8
+    text-center
+    text-4xl
+    font-bold">
+    MusicHub Homepage
+  </h1>
+  <div class="
+      flex
+      justify-center
+      content-center
+      flex-col
+      max-w-4xl
+      px-8
+      mx-auto">
     <DataTable
       sortable
       zebra
@@ -36,14 +55,38 @@
         { key: 'name', value: 'Name'},
         { key: 'artist', value: 'Artist'},
         { key: 'album', value: 'Album'},
+        { key: 'operations', value: 'Operations'},
       ]}
-      rows={dummyList}>
+      rows={dummyList}
+      pageSize="{pagination.pageSize}"
+      page={pagination.page}>
+      <svelte:fragment slot="cell" let:row let:cell>
+        {#if cell.key === 'operations'}
+          <div class="flex">
+            <Button
+              iconDescription="Play"
+              icon={Play}/>
+            <Button
+              kind="secondary"
+              iconDescription="Remove"
+              icon={TrashCan}/>
+          </div>
+        {:else}
+          {cell.value}
+        {/if}
+      </svelte:fragment>
       <Toolbar>
         <ToolbarSearch persistent value="" shouldFilterRows />
         <Button>// TODO</Button>
       </Toolbar>
     </DataTable>
+    <Pagination
+      bind:pageSize={pagination.pageSize}
+      bind:page={pagination.page}
+      totalItems={dummyList.length}
+    />
   </div>
+  <div id="// TODO" style="height: 100px;"></div>
   <div id="aplayer"></div>
 </main>
 

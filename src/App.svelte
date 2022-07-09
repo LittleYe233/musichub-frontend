@@ -5,10 +5,7 @@
   import {
       DataTable,
       Toolbar,
-      ToolbarContent,
       ToolbarSearch,
-      ToolbarMenu,
-      ToolbarMenuItem,
       Button,
   } from "carbon-components-svelte";
 

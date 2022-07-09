@@ -1,29 +1,37 @@
 <script lang="ts">
-  // import 'normalize.css'
-  import './tailwind.css'
-  import "carbon-components-svelte/css/all.css";
-  import {
-      DataTable,
-      Toolbar,
-      ToolbarSearch,
-      Button,
-      Pagination
-  } from "carbon-components-svelte";
-  import {
-      TrashCan,
-      Play
-  } from "carbon-icons-svelte";
+    // import 'normalize.css'
+    import './tailwind.css'
+    import "carbon-components-svelte/css/all.css"
+    import {Button, DataTable, Pagination, Toolbar, ToolbarSearch} from "carbon-components-svelte"
+    import {Play, TrashCan} from "carbon-icons-svelte"
 
-  let dummyList = Array.from({ length: 50 }).map((_, i) => ({
-      id: i+1,
-      name: 'Lorem Ipsum Super Hyper Mega Long Long Song Name!!!!!!!!!!!!!!!!!!!!!',
-      artist: 'Rick Astley',
-      album: 'littleye',
-  }));
-  let pagination = {
-      pageSize: 20,
-      page: 1,
-  }
+    let dummyList = Array.from({length: 50}).map((_, i) => ({
+        id: i + 1,
+        name: 'Lorem Ipsum Super Hyper Mega Long Long Song Name!!!!!!!!!!!!!!!!!!!!!',
+        artist: 'Rick Astley',
+        album: 'littleye',
+    }))
+    let selectedRowIds = []
+    let pagination = {
+        pageSize: 20,
+        page: 1,
+    }
+
+    const handleRemoveSelected = () => {
+        dummyList = dummyList.filter(
+            (item) => !selectedRowIds.includes(item.id)
+        )
+    }
+
+    const handleItemPlay = (id) => {
+
+    }
+
+    const handleItemRemove = (id) => {
+        dummyList = dummyList.filter(
+            (item) => item.id != id
+        )
+    }
 </script>
 
 <svelte:head>
@@ -35,7 +43,8 @@
     py-8
     text-center
     text-4xl
-    font-bold">
+    font-bold"
+  >
     MusicHub Homepage
   </h1>
   <div class="
@@ -45,11 +54,10 @@
       flex-col
       max-w-4xl
       px-8
-      mx-auto">
+      mx-auto"
+  >
     <DataTable
-      sortable
-      zebra
-      title="Playlist"
+      bind:selectedRowIds
       headers={[
         { key: 'id', value: '#'},
         { key: 'name', value: 'Name'},
@@ -57,32 +65,42 @@
         { key: 'album', value: 'Album'},
         { key: 'operations', value: 'Operations'},
       ]}
-      rows={dummyList}
+      page={pagination.page}
       pageSize="{pagination.pageSize}"
-      page={pagination.page}>
-      <svelte:fragment slot="cell" let:row let:cell>
+      rows={dummyList}
+      selectable
+      sortable
+      title="Playlist"
+      zebra
+    >
+      <svelte:fragment let:cell let:row slot="cell">
         {#if cell.key === 'operations'}
           <div class="flex">
             <Button
               iconDescription="Play"
-              icon={Play}/>
+              icon={Play}
+            />
             <Button
               kind="secondary"
               iconDescription="Remove"
-              icon={TrashCan}/>
+              icon={TrashCan}
+              on:click={handleItemRemove(row.id)}
+            />
           </div>
         {:else}
           {cell.value}
         {/if}
       </svelte:fragment>
       <Toolbar>
-        <ToolbarSearch persistent value="" shouldFilterRows />
-        <Button>// TODO</Button>
+        <ToolbarSearch persistent shouldFilterRows value=""/>
+        <Button on:click={handleRemoveSelected}>
+          Remove Selected
+        </Button>
       </Toolbar>
     </DataTable>
     <Pagination
-      bind:pageSize={pagination.pageSize}
       bind:page={pagination.page}
+      bind:pageSize={pagination.pageSize}
       totalItems={dummyList.length}
     />
   </div>
@@ -93,6 +111,6 @@
 <style>
   :root {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 </style>

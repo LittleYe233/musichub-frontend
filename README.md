@@ -16,7 +16,7 @@ Then change directory into it and choose the branch you want (main is recommende
 
 ```bash
 cd musichub-frontend
-git checkout main
+git switch main
 ```
 
 Now, follow the command to launch a development server:

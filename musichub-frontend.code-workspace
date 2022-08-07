@@ -8,6 +8,19 @@
 		"svelte.enable-ts-plugin": true,
 		"files.associations": {
 			"**/src/**/*.css": "tailwindcss"
+		},
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"[typescript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"[svelte]": {
+			"editor.defaultFormatter": "svelte.svelte-vscode"
+		},
+		"[javascript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"[json]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		}
 	}
 }

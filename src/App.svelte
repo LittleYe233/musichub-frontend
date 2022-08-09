@@ -16,6 +16,8 @@
   import parseConfig from './lib/config';
   import musichubConfig from '../musichub.config';
   import type { SongPiece } from './types/config';
+  import APlayer from 'aplayer-remake';
+  import 'aplayer-remake/dist/APlayer.min.css';
 
   const backendConfig = parseConfig(musichubConfig);
   const backendAPI = new BackendAPI(backendConfig);
@@ -28,6 +30,11 @@
         a[i].id = i + 1;
       });
       songList = ret as Required<SongPiece>[];
+      const ap = new APlayer({
+        container: document.getElementById('aplayer'),
+        fixed: true,
+        audio: songList
+      });
       return Promise.resolve(ret as Required<SongPiece>[]);
     } else {
       return Promise.reject(ret);

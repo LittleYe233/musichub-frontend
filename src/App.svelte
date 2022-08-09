@@ -12,39 +12,56 @@
     ToolbarSearch,
   } from 'carbon-components-svelte';
   import { Play, TrashCan, OverflowMenuHorizontal } from 'carbon-icons-svelte';
+  import BackendAPI from './lib/api/backend';
+  import parseConfig from './lib/config';
+  import musichubConfig from '../musichub.config';
+  import type { SongPiece } from './types/config';
 
-  // TODO: Replace dummy list with real list.
-  let songList = Array.from({ length: 50 }).map((_, i) => ({
-    id: i + 1,
-    name: 'Lorem Ipsum Super Hyper Mega Long Long Song Name!!!!!!!!!!!!!!!!!!!!!',
-    artist: 'Rick Astley',
-    album: 'littleye',
-  }));
+  const backendConfig = parseConfig(musichubConfig);
+  const backendAPI = new BackendAPI(backendConfig);
+
+  async function getSongsPromise(): Promise<Required<SongPiece>[]> {
+    const ret = await backendAPI.getSongs();
+
+    if (Array.isArray(ret)) {
+      ret.forEach((_, i, a) => {
+        a[i].id = i + 1;
+      });
+      songList = ret as Required<SongPiece>[];
+      return Promise.resolve(ret as Required<SongPiece>[]);
+    } else {
+      return Promise.reject(ret);
+    }
+  }
+
+  let songListPromise = getSongsPromise();
+  let songList: Required<SongPiece>[] = [];
+
   let selectedRowIds = [];
   let pagination = {
     pageSize: 20,
     page: 1,
   };
 
-  const handleRemoveSelected = () => {
+  function handleRemoveSelected() {
     songList = songList.filter((item) => !selectedRowIds.includes(item.id));
-  };
-  const handleSelectAll = () => {
+  }
+  function handleSelectAll() {
     selectedRowIds = songList.map((item) => item.id);
-  };
-  const handleRevertSelection = () => {
+  }
+  function handleRevertSelection() {
     selectedRowIds = songList.filter((item) => !selectedRowIds.includes(item.id)).map((item) => item.id);
-  };
-  const handleClearSelection = () => {
+  }
+  function handleClearSelection() {
     selectedRowIds = [];
-  };
+  }
 
   // TODO: Add music player feature.
-  const handleItemPlay = (id) => {};
+  function handleItemPlay(id: number) {}
 
-  const handleItemRemove = (id) => {
+  function handleItemRemove(id: number) {
     songList = songList.filter((item) => item.id != id);
-  };
+  }
 </script>
 
 <svelte:head>
@@ -71,47 +88,52 @@
       px-8
       mx-auto"
   >
-    <DataTable
-      bind:selectedRowIds
-      headers={[
-        { key: 'id', value: '#' },
-        { key: 'name', value: 'Name' },
-        { key: 'artist', value: 'Artist' },
-        { key: 'album', value: 'Album' },
-        { key: 'operations', value: 'Operations' },
-      ]}
-      page={pagination.page}
-      pageSize={pagination.pageSize}
-      rows={songList}
-      selectable
-      sortable
-      title="Playlist"
-      zebra
-    >
-      <svelte:fragment let:cell let:row slot="cell">
-        {#if cell.key === 'operations'}
-          <div class="flex">
-            <Button iconDescription="Play" icon={Play} />
-            <Button kind="secondary" iconDescription="Remove" icon={TrashCan} on:click={() => handleItemRemove(row.id)} />
-          </div>
-        {:else}
-          {cell.value}
-        {/if}
-      </svelte:fragment>
-      <Toolbar>
-        <ToolbarContent>
-          <ToolbarSearch persistent shouldFilterRows value="" />
-          <ToolbarMenu icon={OverflowMenuHorizontal}>
-            <ToolbarMenuItem on:click={handleSelectAll}>Select All</ToolbarMenuItem>
-            <ToolbarMenuItem on:click={handleRevertSelection}>Revert Selection</ToolbarMenuItem>
-            <ToolbarMenuItem on:click={handleClearSelection}>Clear Selection</ToolbarMenuItem>
-          </ToolbarMenu>
-          <Button on:click={handleRemoveSelected} size="small">Remove Selected</Button>
-          <!-- TODO: Add play feature and more. -->
-        </ToolbarContent>
-      </Toolbar>
-    </DataTable>
-    <Pagination bind:page={pagination.page} bind:pageSize={pagination.pageSize} totalItems={songList.length} />
+    {#await songListPromise}
+      <h1 class="py-8 text-3xl font-bold">Loading...</h1>
+    <!-- We should not use `songList` here because it will override the variable defined above. Just use an underscore as a placeholder. -->
+    {:then _}
+      <DataTable
+        bind:selectedRowIds
+        headers={[
+          { key: 'id', value: '#' },
+          { key: 'name', value: 'Name' },
+          { key: 'artist', value: 'Artist' },
+          { key: 'album', value: 'Album' },
+          { key: 'operations', value: 'Operations' },
+        ]}
+        page={pagination.page}
+        pageSize={pagination.pageSize}
+        rows={songList}
+        selectable
+        sortable
+        title="Playlist"
+        zebra
+      >
+        <svelte:fragment let:cell let:row slot="cell">
+          {#if cell.key === 'operations'}
+            <div class="flex">
+              <Button iconDescription="Play" icon={Play} />
+              <Button kind="secondary" iconDescription="Remove" icon={TrashCan} on:click={() => handleItemRemove(row.id)} />
+            </div>
+          {:else}
+            {cell.value}
+          {/if}
+        </svelte:fragment>
+        <Toolbar>
+          <ToolbarContent>
+            <ToolbarSearch persistent shouldFilterRows value="" />
+            <ToolbarMenu icon={OverflowMenuHorizontal}>
+              <ToolbarMenuItem on:click={handleSelectAll}>Select All</ToolbarMenuItem>
+              <ToolbarMenuItem on:click={handleRevertSelection}>Revert Selection</ToolbarMenuItem>
+              <ToolbarMenuItem on:click={handleClearSelection}>Clear Selection</ToolbarMenuItem>
+            </ToolbarMenu>
+            <Button on:click={handleRemoveSelected} size="small">Remove Selected</Button>
+            <!-- TODO: Add play feature and more. -->
+          </ToolbarContent>
+        </Toolbar>
+      </DataTable>
+      <Pagination bind:page={pagination.page} bind:pageSize={pagination.pageSize} totalItems={songList.length} />
+    {/await}
   </div>
   <div id="// TODO" style="height: 100px;" />
   <div id="aplayer" />

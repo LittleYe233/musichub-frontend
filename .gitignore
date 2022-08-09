@@ -378,3 +378,5 @@ $RECYCLE.BIN/
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,node,yarn,svelte,webstorm,visualstudiocode,windows,linux
+
+musichub.config.js

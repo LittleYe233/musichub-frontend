@@ -6,6 +6,7 @@
     "module": "esnext",
     "resolveJsonModule": true,
     "baseUrl": ".",
+    "outDir": "build",
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.
      * Disable checkJs if you'd like to use dynamic types in JS.
@@ -13,7 +14,17 @@
      * of JS in `.svelte` files.
      */
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "paths": {
+      "~/*": ["./src/*"],
+      "$lib": ["src/lib"],
+      "$lib/*": ["src/lib/*"],
+      "$types": ["src/types"],
+      "$types/*": ["src/types/*"],
+      "$cmps": ["src/components"],
+      "$cmps/*": ["src/components/*"]
+    }
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
+  "exclude": ["node_modules", "musichub.config.js"]
 }

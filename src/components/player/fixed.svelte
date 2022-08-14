@@ -104,9 +104,7 @@
 
       <!-- right controls -->
       <div class="right-controls w-[292px] flex items-center">
-        <span class="w-[100px] text-center">
-          <input type="range" class="amplitude-volume-slider w-[68px]" id="mhfx-volume-slider" max="100" min="0" step="any" />
-        </span>
+        <input type="range" class="amplitude-volume-slider w-[68px] h-[2px] mx-[16px]" id="mhfx-volume-slider" max="100" min="0" step="any" />
         <span class="pr-4">
           <Fa icon={faVolumeHigh} color="#909090" size="2x" scale={0.7} />
         </span>

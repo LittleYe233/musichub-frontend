@@ -69,6 +69,8 @@ export default class BackendAPI implements IBackendAPI {
     const resp = await fetch(this.parseEndpoint('getSongs'), {
       headers: {
         'Content-Type': 'application/json',
+        pragma: 'no-cache',
+        'cache-control': 'no-cache',
       },
     });
 

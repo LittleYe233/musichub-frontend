@@ -1,17 +1,15 @@
 <script lang="ts">
-  import '~/tailwind.css';
   import BackendAPI from '$lib/api/backend';
   import parseConfig from '$lib/config';
   import musichubConfig from '../musichub.config';
   import type { SongPiece } from '$types/config';
-  import APlayer from 'aplayer-remake';
-  import 'aplayer-remake/dist/APlayer.min.css';
   import Playlist from '$cmps/Playlist.svelte';
+  import Player from '$cmps/player/Player.svelte';
 
   const backendConfig = parseConfig(musichubConfig);
   const backendAPI = new BackendAPI(backendConfig);
 
-  async function getSongsPromise(): Promise<Required<SongPiece>[]> {
+  let getSongListPromise = async (): Promise<Required<SongPiece>[]> => {
     const ret = await backendAPI.getSongs();
 
     if (Array.isArray(ret)) {
@@ -19,18 +17,13 @@
         a[i].id = i + 1;
       });
       songList = ret as Required<SongPiece>[];
-      const ap = new APlayer({
-        container: document.getElementById('aplayer'),
-        fixed: true,
-        audio: songList,
-      });
-      return Promise.resolve(ret as Required<SongPiece>[]);
+      return Promise.resolve(songList);
     } else {
-      return Promise.reject(ret);
+      return Promise.reject(ret); // It may have no effect.
     }
-  }
+  };
 
-  let songListPromise = getSongsPromise();
+  let songListPromise = getSongListPromise();
   let songList: Required<SongPiece>[] = [];
 
   let pagination = {
@@ -65,13 +58,16 @@
   >
     {#await songListPromise}
       <h1 class="py-8 text-3xl font-bold">Loading...</h1>
+
       <!-- We should not use `songList` here because it will override the variable defined above. Just use an underscore as a placeholder. -->
     {:then _}
       <Playlist {pagination} {songList} />
     {/await}
   </div>
   <div id="// TODO" style="height: 100px;" />
-  <div id="aplayer" />
+  {#await songListPromise then _}
+    <Player {songList} mode="fixed" />
+  {/await}
 </main>
 
 <style>

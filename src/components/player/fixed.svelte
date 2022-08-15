@@ -24,6 +24,14 @@
     title: 'Default Playlist',
   };
 
+  let spnAmplitudePlayPause: HTMLSpanElement;
+  let spnAmplitudeRepeat: HTMLSpanElement;
+  let spnAmplitudeShuffle: HTMLSpanElement;
+
+  let isPlaying: boolean;
+  let isRepeatOn: boolean;
+  let isShuffleOn: boolean;
+
   onMount(async () => {
     Amplitude.init({
       songs: songList,
@@ -34,6 +42,11 @@
 
     // set value of the volume slider to 100 (max) manually
     (document.getElementById('mhfx-volume-slider') as any).value = '100';
+
+    // bind elements
+    spnAmplitudePlayPause = document.getElementById('spnAmplitudePlayPause');
+    spnAmplitudeRepeat = document.getElementById('spnAmplitudeRepeat');
+    spnAmplitudeShuffle = document.getElementById('spnAmplitudeShuffle');
   });
 </script>
 
@@ -54,8 +67,8 @@
             </span>
           </div>
           <div class="play-pause-button mx-4">
-            <span class="amplitude-play-pause" data-amplitude-playlist={defaultPlaylistKey}>
-              <Fa icon={faCirclePlay} color="white" size="2x" />
+            <span class="amplitude-play-pause" id="spnAmplitudePlayPause" data-amplitude-playlist={defaultPlaylistKey} on:click={(_) => (isPlaying = spnAmplitudePlayPause !== undefined && spnAmplitudePlayPause.classList.contains('amplitude-paused'))}>
+              <Fa icon={isPlaying ? faCirclePause : faCirclePlay} color="white" size="2x" />
             </span>
           </div>
           <div class="next-button mx-4">
@@ -104,15 +117,27 @@
 
       <!-- right controls -->
       <div class="right-controls w-[292px] flex items-center">
-        <input type="range" class="amplitude-volume-slider w-[68px] h-[2px] mx-[16px]" id="mhfx-volume-slider" max="100" min="0" step="any" />
+        <input
+          type="range"
+          class="amplitude-volume-slider w-[68px] h-[2px] mx-[16px]"
+          id="mhfx-volume-slider"
+          max="100"
+          min="0"
+          step="any"
+        />
         <span class="pr-4">
           <Fa icon={faVolumeHigh} color="#909090" size="2x" scale={0.7} />
         </span>
-        <span class="amplitude-repeat pr-4" data-amplitude-playlist={defaultPlaylistKey}>
-          <Fa icon={faRepeat} color="#909090" size="2x" scale={0.7} />
+        <span
+          class="amplitude-repeat pr-4"
+          id="spnAmplitudeRepeat"
+          data-amplitude-playlist={defaultPlaylistKey}
+          on:click={(_) => (isRepeatOn = spnAmplitudeRepeat !== undefined && spnAmplitudeRepeat.classList.contains('amplitude-repeat-off'))}
+        >
+          <Fa icon={faRepeat} color={isRepeatOn ? 'white' : '#909090'} size="2x" scale={0.7} />
         </span>
-        <span class="amplitude-shuffle pr-4" data-amplitude-playlist={defaultPlaylistKey}>
-          <Fa icon={faShuffle} color="#909090" size="2x" scale={0.7} />
+        <span class="amplitude-shuffle pr-4" id="spnAmplitudeShuffle" data-amplitude-playlist={defaultPlaylistKey} on:click={(_) => (isShuffleOn = spnAmplitudeShuffle !== undefined && spnAmplitudeShuffle.classList.contains('amplitude-shuffle-off'))}>
+          <Fa icon={faShuffle} color={isShuffleOn ? 'white' : '#909090'} size="2x" scale={0.7} />
         </span>
       </div>
     </div>

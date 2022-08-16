@@ -15,7 +15,7 @@
       ret.forEach((_, i, a) => {
         a[i].id = i + 1;
       });
-      songList = ret as Required<SongPiece>[];
+      songList = backendAPI.parseSongs(ret) as Required<SongPiece>[];
       return Promise.resolve(songList);
     } else {
       return Promise.reject(ret); // It may have no effect.

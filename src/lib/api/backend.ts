@@ -5,6 +5,7 @@
 
 import type IBackendAPI from 'src/types/api/backend';
 import type { ProjectConfig, ServerConfig, SongPiece } from 'src/types/config';
+import { projectConfig } from '../config';
 
 export const ENDPOINT_PATHS: Record<string, string> = {
   getSongs: '/rest/get-config/songs',
@@ -15,6 +16,7 @@ export const ENDPOINT_PATHS: Record<string, string> = {
  */
 export default class BackendAPI implements IBackendAPI {
   /**
+   * Root URL of API entrypoints.
    * @default 'http://localhost:8083'
    */
   root: string = 'http://localhost:8083';
@@ -75,5 +77,13 @@ export default class BackendAPI implements IBackendAPI {
     });
 
     return resp.status === 200 ? await resp.json() : resp;
+  }
+
+  parseSongs(songs: SongPiece[]): SongPiece[] {
+    return songs.map((v) => {
+      v.cover_art_url = v.cover_art_url || new URL('default_cover.jpg', projectConfig.client.root).href;
+
+      return v;
+    });
   }
 }

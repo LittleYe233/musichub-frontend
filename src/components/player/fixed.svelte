@@ -96,9 +96,9 @@
             data-amplitude-playlist={defaultPlaylistKey}
           />
         </div>
-        <div class="content-info-wrapper flex flex-col overflow-hidden ml-16 mr-8 text-[1em] leading-[19.2px]">
-          <span class="title font-medium text-white" data-amplitude-song-info="name" data-amplitude-playlist={defaultPlaylistKey} />
-          <span class="subtitle font-normal text-[#909090] flex flex-row">
+        <div class="content-info-wrapper flex flex-col overflow-hidden ml-4 mr-2 leading-[19.2px]">
+          <span class="title font-medium text-[16px] text-white" data-amplitude-song-info="name" data-amplitude-playlist={defaultPlaylistKey} />
+          <span class="subtitle font-normal text-[16px] text-[#909090] flex flex-row">
             <span
               class="artist mr-[-0.1em] pr-[0.1em] whitespace-pre"
               data-amplitude-song-info="artist"

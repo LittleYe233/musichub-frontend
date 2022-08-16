@@ -32,6 +32,8 @@ npm run dev
 - Svelte
 - TypeScript
 - TailwindCSS
+- Saas
+- FontAwesome
 - Carbon Components Svelte
 
 ## Branches

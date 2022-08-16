@@ -67,7 +67,13 @@
             </span>
           </div>
           <div class="play-pause-button mx-4">
-            <span class="amplitude-play-pause" id="spnAmplitudePlayPause" data-amplitude-playlist={defaultPlaylistKey} on:click={(_) => (isPlaying = spnAmplitudePlayPause !== undefined && spnAmplitudePlayPause.classList.contains('amplitude-paused'))}>
+            <span
+              class="amplitude-play-pause"
+              id="spnAmplitudePlayPause"
+              data-amplitude-playlist={defaultPlaylistKey}
+              on:click={(_) =>
+                (isPlaying = spnAmplitudePlayPause !== undefined && spnAmplitudePlayPause.classList.contains('amplitude-paused'))}
+            >
               <Fa icon={isPlaying ? faCirclePause : faCirclePlay} color="white" size="2x" />
             </span>
           </div>
@@ -97,7 +103,11 @@
           />
         </div>
         <div class="content-info-wrapper flex flex-col overflow-hidden ml-4 mr-2 leading-[19.2px]">
-          <span class="title font-medium text-[16px] text-white" data-amplitude-song-info="name" data-amplitude-playlist={defaultPlaylistKey} />
+          <span
+            class="title font-medium text-[16px] text-white"
+            data-amplitude-song-info="name"
+            data-amplitude-playlist={defaultPlaylistKey}
+          />
           <span class="subtitle font-normal text-[16px] text-[#909090] flex flex-row">
             <span
               class="artist mr-[-0.1em] pr-[0.1em] whitespace-pre"
@@ -136,7 +146,13 @@
         >
           <Fa icon={faRepeat} color={isRepeatOn ? 'white' : '#909090'} size="2x" scale={0.7} />
         </span>
-        <span class="amplitude-shuffle pr-4" id="spnAmplitudeShuffle" data-amplitude-playlist={defaultPlaylistKey} on:click={(_) => (isShuffleOn = spnAmplitudeShuffle !== undefined && spnAmplitudeShuffle.classList.contains('amplitude-shuffle-off'))}>
+        <span
+          class="amplitude-shuffle pr-4"
+          id="spnAmplitudeShuffle"
+          data-amplitude-playlist={defaultPlaylistKey}
+          on:click={(_) =>
+            (isShuffleOn = spnAmplitudeShuffle !== undefined && spnAmplitudeShuffle.classList.contains('amplitude-shuffle-off'))}
+        >
           <Fa icon={faShuffle} color={isShuffleOn ? 'white' : '#909090'} size="2x" scale={0.7} />
         </span>
       </div>

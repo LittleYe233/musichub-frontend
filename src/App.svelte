@@ -1,12 +1,11 @@
 <script lang="ts">
   import BackendAPI from '$lib/api/backend';
-  import parseConfig from '$lib/config';
-  import musichubConfig from '../musichub.config';
+  import { projectConfig } from '$lib/config';
   import type { SongPiece } from '$types/config';
   import Playlist from '$cmps/Playlist.svelte';
   import Player from '$cmps/player/Player.svelte';
 
-  const backendConfig = parseConfig(musichubConfig);
+  const backendConfig = projectConfig;
   const backendAPI = new BackendAPI(backendConfig);
 
   let getSongListPromise = async (): Promise<Required<SongPiece>[]> => {

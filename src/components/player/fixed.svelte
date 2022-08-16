@@ -54,7 +54,7 @@
 <div class="mhfx-container fixed z-50 inset-x-0 bottom-0 m-0 overflow-visible bg-[#212121]">
   <div class="bar flex flex-col w-[100vw] bottom-0 left-0 h-[72px]">
     <!-- song navigation slider -->
-    <input type="range" class="amplitude-song-slider w-full h-[2.5px]" data-amplitude-playlist={defaultPlaylistKey} step="any" />
+    <input type="range" class="amplitude-song-slider w-full h-[5px]" data-amplitude-playlist={defaultPlaylistKey} step="any" />
 
     <!-- main controls -->
     <div class="controls grid grid-cols-[0fr_1fr_0fr] h-full">

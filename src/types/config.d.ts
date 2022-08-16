@@ -2,6 +2,7 @@ export interface ClientConfig {
   host: string;
   port: number;
   strictPort: boolean;
+  root: string;
 }
 
 export interface ServerConfig {
@@ -31,7 +32,7 @@ export interface SongPiece {
   /** Relative or absolute URL of the media file. */
   url: string;
   /** Path of the album cover image. */
-  cover: string;
+  cover_art_url: string | null;
   /** Path of the lyric file (should be SRT). */
-  lrc: string;
+  lrc: string | null;
 }

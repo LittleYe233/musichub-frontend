@@ -11,6 +11,15 @@ export const ENDPOINT_PATHS: Record<string, string> = {
   getSongs: '/rest/get-config/songs',
 };
 
+export const DEFAULT_SONG_PIECE: SongPiece = {
+  name: '<Song Name>',
+  artist: '<Song Artist>',
+  album: '<Song Album>',
+  url: null,
+  cover_art_url: new URL('default_cover.jpg', projectConfig.client.root).href,
+  lrc: null,
+};
+
 /**
  * Class of back-end APIs.
  */
@@ -80,10 +89,15 @@ export default class BackendAPI implements IBackendAPI {
   }
 
   parseSongs(songs: SongPiece[]): SongPiece[] {
-    return songs.map((v) => {
-      v.cover_art_url = v.cover_art_url || new URL('default_cover.jpg', projectConfig.client.root).href;
-
-      return v;
-    });
+    // override the default values
+    return songs.map((v) => ({
+      id: v.id || DEFAULT_SONG_PIECE.id,
+      name: v.name || DEFAULT_SONG_PIECE.name,
+      artist: v.artist || DEFAULT_SONG_PIECE.artist,
+      album: v.album || DEFAULT_SONG_PIECE.album,
+      url: v.url || DEFAULT_SONG_PIECE.url,
+      cover_art_url: v.cover_art_url || DEFAULT_SONG_PIECE.cover_art_url,
+      lrc: v.lrc || DEFAULT_SONG_PIECE.lrc,
+    }));
   }
 }

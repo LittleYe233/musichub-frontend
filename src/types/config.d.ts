@@ -26,9 +26,11 @@ export interface SongPiece {
   /** ID of the song (in a song list). */
   id?: number;
   /** Name of the song. */
-  name: string;
+  name: string | null;
   /** String or array of the artists. */
-  artist: string[] | string;
+  artist: string[] | string | null;
+  /** Name of the album. */
+  album: string | null;
   /** Relative or absolute URL of the media file. */
   url: string;
   /** Path of the album cover image. */
